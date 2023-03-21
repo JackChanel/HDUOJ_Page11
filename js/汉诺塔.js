@@ -20,4 +20,9 @@ var hanota = function (A, B, C) {
 	movea2c(size, A, B, C)
 }
 
+const A = [1, 2, 3, 4, 5, 6]
+const B = []
+const C = []
+
 hanota(A, B, C)
+console.log(C)
