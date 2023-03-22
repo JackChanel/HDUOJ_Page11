@@ -20,6 +20,29 @@ using namespace std;
 
 int main()
 {
-
+    int n;
+    int money[] = {100, 50, 10, 5, 2, 1};
+    while (cin >> n, n)
+    {
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int salary;
+            cin >> salary;
+            while (salary)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (salary / money[i])
+                    {
+                        cnt += salary / money[i];
+                        salary %= money[i];
+                        continue;
+                    }
+                }
+            }
+        }
+        cout << cnt << endl;
+    }
     return 0;
 }
