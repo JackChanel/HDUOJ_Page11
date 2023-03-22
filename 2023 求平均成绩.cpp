@@ -16,13 +16,57 @@
 // 1
 
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
+struct Student
+{
+    double score[5];
+    double average;
+};
+double scoreMap[5];
 int main()
 {
     int stuNum, classNum;
-    cin >> stuNum, classNum;
+    vector<Student> students;
+    cin >> stuNum >> classNum;
+    for (int i = 0; i < stuNum; i++)
+    {
+        Student stu;
+        double stuSum = 0;
+        for (int j = 0; j < classNum; j++)
+        {
+            double score;
+            cin >> score;
+            scoreMap[j] += score;
+            stuSum += score;
+            stu.score[j] = score;
+        }
+        stu.average = stuSum / classNum;
+        students.push_back(stu);
+    }
 
+    for (auto i : students)
+        printf("%.2lf ", i.average);
+    puts("");
+    for (int i = 0; i < classNum; i++)
+    {
+        scoreMap[i] = scoreMap[i] / stuNum;
+        printf("%.2lf ", scoreMap[i]);
+    }
+    puts("");
+    int cnt = 0;
+    for (auto stu : students)
+    {
+        bool allOver = true;
+        for (int i = 0; i < classNum; i++)
+        {
+            if (stu.score[i] < scoreMap[i])
+                allOver = false;
+        }
+        if (allOver)
+            cnt++;
+    }
+    cout << cnt;
     return 0;
 }
