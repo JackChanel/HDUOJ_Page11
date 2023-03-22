@@ -6,32 +6,52 @@
 // Output  对于每个测试实例，输出在第n年的时候母牛的数量。
 // 每个输出占一行。
 
-// Sample Input  2
+// Sample Input
+// 2
 // 4
 // 5
 // 0
 
-// Sample Output  2
+// Sample Output
+// 2
 // 4
 // 6
 
 #include <iostream>
-#include <vector>
+
 using namespace std;
 
-int fn(int n)
+// 递归法，时间复杂度高，因为很多help是重复计算，采用数组缓存结果可以提高效率
+int help(int year)
 {
-  return 233;
+  if (year < 4)
+    return year;
+  return help(year - 1) + help(year - 3);
 }
 
 int main()
 {
-  vector<int> v;
-  for (int i = 0; i <= 20; i++)
+  int year;
+  while (cin >> year, year)
   {
-    v.push_back(i);
+    cout << help(year) << endl;
   }
-  for (auto i : v)
-    cout << i;
   return 0;
 }
+
+// 以下是数组缓存的算法
+// int main()
+// {
+//   int n, i;
+//   int fab[55] = {1, 2, 3, 4, 6};
+
+//   for (i = 5; i < 55; i++)
+//     fab[i] = fab[i - 1] + fab[i - 3];
+
+//   while (scanf("%d", &n), n)
+//   {
+//     printf("%d\n", fab[n - 1]);
+//   }
+
+//   return 0;
+// }
