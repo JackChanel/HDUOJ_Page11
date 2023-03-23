@@ -21,11 +21,40 @@
 // 1 2 1
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
+void build(int height)
+{
+    vector<vector<int>> layer;
+    for (int i = 0; i < height; i++)
+    {
+        vector<int> row;
+        for (int j = 0; j <= i; j++)
+        {
+            if (j == 0 || j == i)
+            {
+                row.push_back(1);
+                cout << 1 << " ";
+            }
+            else
+            {
+                row.push_back(layer[i - 1][j - 1] + layer[i - 1][j]);
+                cout << layer[i - 1][j - 1] + layer[i - 1][j] << " ";
+            }
+        }
+        cout << endl;
+        layer.push_back(row);
+    }
+}
+
 int main()
 {
-
+    int n;
+    while (cin >> n)
+    {
+        build(n);
+    }
     return 0;
 }
