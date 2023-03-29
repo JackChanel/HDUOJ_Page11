@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Debug</title>
+	</head>
+	<body></body>
+	<script>
+		class Queue {
+			constructor() {
+				this.queue = []
+			}
+			push(x) {
+				this.queue.push(x)
+			}
+			get() {
+				return this.queue[0]
+			}
+			pop() {
+				return this.queue.shift()
+			}
+			empty() {
+				return this.queue.length === 0
+			}
+		}
+		const MAX = 1010
+		const nodes = 4
+		const firstNode = 1
+		const G = new Array(MAX).fill().map(() => new Array())
+		const visited = new Array(MAX).fill(false)
+		const inputEdge = [
+			[1, 2],
+			[1, 4],
+			[2, 3],
+			[2, 5],
+			[2, 6],
+			[3, 4],
+			[4, 6],
+			[5, 6],
+			[5, 7],
+			[6, 7],
+		]
+		for (let pair of inputEdge) {
+			const x = pair[0]
+			const y = pair[1]
+			G[x].push(y)
+			G[y].push(x)
+		}
+
+		const bfs = function (firstNode) {
+			let q = new Queue()
+			q.push(firstNode)
+			while (!q.empty()) {
+				let node = q.pop()
+				if (!visited[node]) {
+					console.log(node)
+					visited[node] = true
+					for (let i of G[node]) q.push(i)
+				}
+			}
+		}
+
+		bfs(1)
+	</script>
+</html>
