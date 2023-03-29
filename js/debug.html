@@ -8,60 +8,96 @@
 	</head>
 	<body></body>
 	<script>
-		class Queue {
-			constructor() {
-				this.queue = []
-			}
-			push(x) {
-				this.queue.push(x)
-			}
-			get() {
-				return this.queue[0]
-			}
-			pop() {
-				return this.queue.shift()
-			}
-			empty() {
-				return this.queue.length === 0
-			}
+		// 并查集
+		const merge = function (x, y) {
+			p[find(y)] = find(x)
 		}
-		const MAX = 1010
-		const nodes = 4
-		const firstNode = 1
-		const G = new Array(MAX).fill().map(() => new Array())
-		const visited = new Array(MAX).fill(false)
-		const inputEdge = [
+		const find = function (x) {
+			if (p[x] != x) p[x] = find(p[x])
+			return p[x]
+		}
+
+		let p = new Array(100)
+
+		let data = [
 			[1, 2],
-			[1, 4],
-			[2, 3],
-			[2, 5],
-			[2, 6],
-			[3, 4],
-			[4, 6],
-			[5, 6],
+			[2, 4],
+			[4, 1],
 			[5, 7],
-			[6, 7],
+			[4, 3],
+			[6, 2],
+			[7, 8],
 		]
-		for (let pair of inputEdge) {
-			const x = pair[0]
-			const y = pair[1]
-			G[x].push(y)
-			G[y].push(x)
+		// 初始化
+		for (let i = 1; i <= 8; i++) {
+			p[i] = i
+		}
+		for (let i of data) {
+			let x = i[0]
+			let y = i[1]
+			merge(x, y)
 		}
 
-		const bfs = function (firstNode) {
-			let q = new Queue()
-			q.push(firstNode)
-			while (!q.empty()) {
-				let node = q.pop()
-				if (!visited[node]) {
-					console.log(node)
-					visited[node] = true
-					for (let i of G[node]) q.push(i)
-				}
-			}
+		const map = new Map()
+		for (let i = 1; i <= 8; i++) {
+			map.set(find(i))
 		}
+		console.log(map.size)
+		// BFS
+		// class Queue {
+		// 	constructor() {
+		// 		this.queue = []
+		// 	}
+		// 	push(x) {
+		// 		this.queue.push(x)
+		// 	}
+		// 	get() {
+		// 		return this.queue[0]
+		// 	}
+		// 	pop() {
+		// 		return this.queue.shift()
+		// 	}
+		// 	empty() {
+		// 		return this.queue.length === 0
+		// 	}
+		// }
+		// const MAX = 1010
+		// const nodes = 4
+		// const firstNode = 1
+		// const G = new Array(MAX).fill().map(() => new Array())
+		// const visited = new Array(MAX).fill(false)
+		// const inputEdge = [
+		// 	[1, 2],
+		// 	[1, 4],
+		// 	[2, 3],
+		// 	[2, 5],
+		// 	[2, 6],
+		// 	[3, 4],
+		// 	[4, 6],
+		// 	[5, 6],
+		// 	[5, 7],
+		// 	[6, 7],
+		// ]
+		// for (let pair of inputEdge) {
+		// 	const x = pair[0]
+		// 	const y = pair[1]
+		// 	G[x].push(y)
+		// 	G[y].push(x)
+		// }
 
-		bfs(1)
+		// const bfs = function (firstNode) {
+		// 	let q = new Queue()
+		// 	q.push(firstNode)
+		// 	while (!q.empty()) {
+		// 		let node = q.pop()
+		// 		if (!visited[node]) {
+		// 			console.log(node)
+		// 			visited[node] = true
+		// 			for (let i of G[node]) q.push(i)
+		// 		}
+		// 	}
+		// }
+
+		// bfs(1)
 	</script>
 </html>
