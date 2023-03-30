@@ -1,58 +1,61 @@
+// 6 10
+// 1 2 1
+// 1 3 3
+// 1 6 5
+// 2 4 3
+// 2 6 6
+// 3 5 7
+// 3 6 4
+// 4 5 2
+// 4 6 5
+// 5 6 1
+
 #include <iostream>
 #include <cstring>
-#include <algorithm>
-
 using namespace std;
 
-const int N = 510, INF = 0x3f3f3f3f;
+const int INF = 0xffff; // 定义正无穷
 
-int n, m;
-int g[N][N]; // 邻接矩阵存储图
-int dist[N]; // 存储当前点到生成树的最短距离
-bool st[N];  // 存储当前点是否已加入生成树
+int nodeSize;          // 图中节点个数
+int graph[1010][1010]; // 邻接矩阵存储图
 
 int prim()
 {
-    memset(dist, 0x3f, sizeof(dist)); // 初始化点到生成树的距离为无穷大
-    memset(st, false, sizeof(st));
-    int res = 0;                // 存储最小生成树的权值之和
-    for (int i = 0; i < n; i++) // 从第一个点开始
+    int dis[1010];                   // 存储当前节点到已选定节点集合的最小距离
+    bool vis[1010];                  // 标记当前节点是否已加入已选定节点集合
+    memset(vis, false, sizeof(vis)); // 初始化vis数组
+    memset(dis, INF, sizeof(dis));   // 初始化dis数组
+    dis[1] = 0;                      // 选定1号节点为起点
+    int ans = 0;                     // 存储最小生成树的权值和
+    for (int i = 1; i <= nodeSize; i++)
     {
-        int t = -1;                  // 存储当前到生成树最小距离的点
-        for (int j = 1; j <= n; j++) // 找到当前到生成树距离最小的点
-            if (!st[j] && (t == -1 || dist[t] > dist[j]))
-                t = j;
+        int u = 0;
+        for (int j = 1; j <= nodeSize; j++)
+            if (!vis[j] && (u == 0 || dis[j] < dis[u]))
+                u = j;
 
-        if (i && dist[t] == INF)
-            return INF; // 如果当前点无法到达生成树，说明不连通，返回无穷大
+        vis[u] = true;
+        ans += dis[u];
 
-        st[t] = true; // 将当前点加入生成树
-        if (i)
-            res += dist[t]; // 如果不是第一个点，将最小距离加入结果
-
-        for (int j = 1; j <= n; j++) // 更新当前点到其他点的距离
-            dist[j] = min(dist[j], g[t][j]);
+        for (int v = 1; v <= nodeSize; v++)
+            if (!vis[v] && graph[u][v] < dis[v])
+                dis[v] = graph[u][v];
     }
-    return res;
+    return ans;
 }
 
 int main()
 {
-    cin >> n >> m;
-
-    memset(g, 0x3f, sizeof(g)); // 初始化为无穷大
-    while (m--)
+    cin >> nodeSize;
+    memset(graph, INF, sizeof(graph));
+    int edgeSize;
+    cin >> edgeSize;
+    while (edgeSize--)
     {
-        int a, b, c;
-        cin >> a >> b >> c;
-        g[a][b] = g[b][a] = min(g[a][b], c); // 如果有重边，取距离最小的一条
+        int a, b, w;
+        cin >> a >> b >> w;
+        graph[a][b] = graph[b][a] = w;
     }
-
-    int t = prim();
-    if (t == INF)
-        puts("impossible"); // 不连通
-    else
-        cout << t << endl;
-
+    cout << prim() << endl; // 输出最小生成树的权值和
     return 0;
 }
